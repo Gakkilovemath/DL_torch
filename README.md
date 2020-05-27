@@ -67,4 +67,14 @@ sns.set_context("notebook", rc={"font.size":16,
                                 "axes.titlesize":20,
                                 "axes.labelsize":18})
                                 
+# TORCH TRICK
+optimizer_w = torch.optim.SGD(params=[net.weight], lr=lr, weight_decay=wd) # 对权重参数衰减
+optimizer_b = torch.optim.SGD(params=[net.bias], lr=lr)  # 不对偏差参数衰减
+optimizer_w.zero_grad()
+optimizer_b.zero_grad()
+l.backward()
+对两个optimizer实例分别调用step函数，从而分别更新权重和偏差
+optimizer_w.step()
+optimizer_b.step()
+                                
                                 

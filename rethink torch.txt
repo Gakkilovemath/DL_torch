@@ -1,0 +1,2 @@
+以下命令可查看安装的PyTorch及版本号:
+conda list | grep torch

@@ -13,3 +13,5 @@ linspace(s,e,steps)	从s到e，均匀切分成steps份
 rand/randn(*sizes)	均匀/标准分布
 normal(mean,std)/uniform(from,to)	正态分布/均匀分布
 randperm(m)	随机排列
+
+https://zhuanlan.zhihu.com/p/63276887

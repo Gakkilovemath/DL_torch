@@ -79,3 +79,5 @@ optimizer_b.step()
                                 
                                 
 # sklearn trick
+
+https://github.com/yiyuezhuo/pyro-tutorial-ch/blob/master/intro_part_i.ipynb

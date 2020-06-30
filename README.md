@@ -123,3 +123,17 @@ ax.axis['left'].set_axisline_style('->')
 ax.axis['top'].set_visible(False)
 ax.axis['right'].set_visible(False)
 
+# pandas plot with ax
+fig = plt.figure("fig6", constrained_layout=True, dpi=200)
+ax = plt.axes()
+style = [f"k{m}-" for m in ['', 'o', 's', '^']]
+df.plot(ax=ax, style=style)
+ax.set_xlabel("Time")
+ax.set_ylabel("Y")
+ax.set_xticks(df.index)
+ax.set_yticks(np.arange(0, 1.1, 0.1))
+ax.spines["top"].set_color("none")  # 不显示上框线
+ax.spines["right"].set_color("none")  # 不显示右框线
+
+\
+

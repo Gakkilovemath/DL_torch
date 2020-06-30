@@ -81,3 +81,45 @@ optimizer_b.step()
 # sklearn trick
 
 https://github.com/yiyuezhuo/pyro-tutorial-ch/blob/master/intro_part_i.ipynb
+
+
+# matplotlib pyplot trick
+
+ax = df.plot()
+ax.set_xlabel('BTD_WV-IR11(K)', fontsize=15)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+作者：墨大宝
+链接：https://zhuanlan.zhihu.com/p/137688031
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+from matplotlib.ticker import FuncFormatter
+from mpl_toolkits import axisartist
+
+fig = plt.figure()
+ax = axisartist.Subplot(fig, 111)
+fig.add_subplot(ax)
+ax.plot(df)
+# 横坐标标签中`WV-IR11`为下标
+ax.set_xlabel(r'$BTD_{WV-IR11}$(K)')  # fontdict和fontsize不起作用，要通过下一行调整字号
+ax.axis['bottom'].label.set_size(20)
+# 图例显示出中文
+font = FontProperties(size=15, fname=r'C:\Windows\Fonts\simsun.ttc')
+ax.legend(['准确率', '识别率', '调和均值'], prop=font, frameon=False)  # 指定prop后fontsize参数失效
+# 纵坐标刻度用百分比表示
+def to_percent(temp, position):
+    return f'{100*temp:.2f}%'
+ax.yaxis.set_major_formatter(FuncFormatter(to_percent))
+# 绘制x=-2的虚线
+ax.axvline(-2, color='red', linestyle ='--')
+# 绘制坐标轴箭头
+ax.axis['bottom'].set_axisline_style('->')
+ax.axis['left'].set_axisline_style('->')
+# 不显示上边框和右边框
+ax.axis['top'].set_visible(False)
+ax.axis['right'].set_visible(False)
+

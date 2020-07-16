@@ -90,10 +90,6 @@ ax.set_xlabel('BTD_WV-IR11(K)', fontsize=15)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 
-作者：墨大宝
-链接：https://zhuanlan.zhihu.com/p/137688031
-来源：知乎
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
@@ -135,5 +131,25 @@ ax.set_yticks(np.arange(0, 1.1, 0.1))
 ax.spines["top"].set_color("none")  # 不显示上框线
 ax.spines["right"].set_color("none")  # 不显示右框线
 
-\
+# matplot lib add text and annotations
+ser = np.random.randn(100) #time series data
+fig = plt.figure(figsize=(12,8)) 
+ax = fig.add_subplot(111)
+plt.grid()
+ax.plot(ser)
+#title
+ax.set_title('Time Series Plot', fontsize=18, fontweight='bold')
+#axis title
+ax.set_xlabel('Day', fontsize=15)
+ax.set_ylabel('Value', fontsize=15)
+#axis limits
+ax.axis([0,100, -5, 5])
+#text
+ax.text(3, 4, 'Random Noise', style='italic', fontsize=12,
+        bbox={'facecolor': 'grey', 'alpha': 0.5, 'pad': 10})
+ax.text(60, 4.1, 'No continuous trend observed', fontsize=15,  color='red')
+#annotation
+ax.plot([33.5], [2.5], 'o')
+ax.annotate('peak', xy=(33.5, 2.5), xytext=(40, 4), fontsize=12,
+            arrowprops=dict(facecolor='black', shrink=0.05))
 

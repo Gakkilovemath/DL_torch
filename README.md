@@ -26,6 +26,22 @@ planets.head(10).style.highlight_max(color = 'yellow', axis =1)
 
 planets.head(10).style.highlight_null(null_color = 'red')
 
+
+1.直接进行values维度计算利用timeit监测两种方式的运行时间%%timeit
+
+df['amount'] = df['last_kj_amount'] + df['last_15day_amount']567 µs ± 32 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)%%timeit
+
+df['amount2'] = df['last_kj_amount'].values + df['last_15day_amount'].values221 µs ± 19 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)在当前数据量并不大的情况下，速度只提升了一倍，如果在生产中使用values值进行计算的话优化效果更好。2.利用np.vectorize代替apply这里我们对上面计算的结果进行向上取整，采用两种方式对比，并用timeit监测运行时间。%%timeit
+df['safe_amount1'] = df.apply(lambda x:math.ceil(x['amount']),axis = 1)243 ms ± 16.8 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)def getInt(x):
+    return math.ceil(x)
+
+%%timeit
+df['safe_amount2'] = np.vectorize(getInt)(df['amount'])4.05 ms ± 162 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)可见采用np.vectorize方式，时间缩短了近60倍。3.利用np.where代替applynp.where类似于if…else语句，主要是用来进行条件判定和数据筛选。%%timeit
+
+df['signal'] = df.apply(lambda x: 1 if x['last_15day_amount'] == 0 and x['statis_date'] == 20200506 and x['time_type'] == 2 else 0,axis = 1)269 ms ± 31.8 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)%%timeit
+
+df['signal1'] = np.where((df['last_15day_amount'] == 0)&(df['statis_date'] == 20200506)&(df['time_type'] == 2),1,0)1.59 ms ± 196 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)可见，np.where方式时间缩短了近170倍。
+
 # seabron tricks
 
 CB91_Blue = '#2CBDFE'
